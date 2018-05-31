@@ -1,5 +1,13 @@
 <template>
-  <div class="el-tab-pane" v-show="active">
+  <div
+    class="el-tab-pane"
+    v-if="!lazy || active"
+    v-show="active"
+    role="tabpanel"
+    :aria-hidden="!active"
+    :id="`pane-${paneName}`"
+    :aria-labelledby="`tab-${paneName}`"
+  >
     <slot></slot>
   </div>
 </template>
@@ -14,7 +22,8 @@
       labelContent: Function,
       name: String,
       closable: Boolean,
-      disabled: Boolean
+      disabled: Boolean,
+      lazy: Boolean
     },
 
     data() {
@@ -29,6 +38,9 @@
       },
       active() {
         return this.$parent.currentName === (this.name || this.index);
+      },
+      paneName() {
+        return this.name || this.index;
       }
     },
 
